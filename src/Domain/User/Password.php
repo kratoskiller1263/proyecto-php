@@ -7,20 +7,15 @@ class Password
 
     public function __construct(string $password)
     {
-        if (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password) || !preg_match('/[\W_]/', $password)) {
-            throw new WeakPasswordException('Contraseña débil');
+        if (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/\d/', $password) || !preg_match('/[\W_]/', $password)) {
+            throw new WeakPasswordException('La contraseña no cumple con los requisitos de seguridad');
         }
-
-        $this->password = password_hash($password, PASSWORD_BCRYPT);
+        $this->password = password_hash($password, PASSWORD_BCRYPT); // Almacenamiento seguro de la contraseña
     }
 
     public function getPassword(): string
     {
         return $this->password;
     }
-
-    public function verify(string $password): bool
-    {
-        return password_verify($password, $this->password);
-    }
 }
+
