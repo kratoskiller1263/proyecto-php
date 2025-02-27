@@ -26,4 +26,12 @@ class User
     public function getEmail(): Email { return $this->email; }
     public function getPassword(): Password { return $this->password; }
     public function getCreatedAt(): DateTimeImmutable { return $this->createdAt; }
+
+    // Factory method to ensure immutability and proper creation
+    public static function create(Name $name, Email $email, Password $password): self
+    {
+        $id = UserId::generate(); // Generate unique UserId
+        $createdAt = new DateTimeImmutable(); // Set current date and time
+        return new self($id, $name, $email, $password, $createdAt);
+    }
 }
